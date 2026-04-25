@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Yigong Hair Stylist</title>
+
+    <style>
+      @import url("https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap");
+
+      :root {
+        --bg: #4F5254;
+        --surface: #62686C;
+        --text: #E6E6E6;
+        --muted: #aaaaaa;
+        --line: #2a2a2a;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        font-family: "Satoshi", system-ui, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+      }
+
+      header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: var(--bg);
+        border-bottom: 0;
+        z-index: 10;
+      }
+
+      .header-inner {
+        width: 100%;
+        max-width: none;
+        margin: 0;
+        padding: clamp(16px, 2.2vw, 26px) clamp(14px, 2vw, 24px);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-family: "Satoshi", system-ui, sans-serif;
+      }
+
+      .logo {
+        font-weight: 700;
+        font-size: clamp(1.35rem, 3vw, 2.5rem);
+        margin-left: clamp(10px, 4vw, 60px);
+      }
+
+      nav {
+        margin-right: clamp(10px, 4vw, 60px);
+      }
+
+      nav a {
+        color: var(--muted);
+        text-decoration: none;
+        margin-left: clamp(12px, 2vw, 30px);
+        font-size: clamp(0.9rem, 1.4vw, 1.12rem);
+      }
+
+      nav a:hover { color: var(--text); }
+
+      .language-menu {
+        position: relative;
+        display: inline-block;
+        margin-left: clamp(12px, 2vw, 30px);
+        color: var(--muted);
+        font-size: clamp(0.9rem, 1.4vw, 1.12rem);
+        cursor: pointer;
+      }
+
+      .language-current {
+        color: var(--muted);
+      }
+
+      .language-menu:hover .language-current {
+        color: var(--text);
+      }
+
+      .language-options {
+        position: absolute;
+        top: calc(100% + 8px);
+        right: 0;
+        display: none;
+        min-width: 64px;
+        padding: 8px 10px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 10px;
+        background: rgba(20, 22, 24, 0.9);
+        backdrop-filter: blur(6px);
+      }
+
+      .language-options a {
+        display: block;
+        margin: 0;
+        padding: 4px 0;
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 0.95rem;
+      }
+
+      .language-options a:hover {
+        color: var(--text);
+      }
+
+      .language-menu:hover .language-options {
+        display: block;
+      }
+
+      .top-banner {
+        width: 100%;
+        margin: 90px auto 0;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .top-banner::after {
+        content: "";
+        position: absolute;
+        top: 12%;
+        right: 32%;
+        bottom: 28%;
+        left: 32%;
+        border: 1px dashed rgba(255, 255, 255, 0.35);
+        border-radius: 12px;
+        box-shadow: 0 0 0 1px rgba(255,255,255,0.04) inset;
+        pointer-events: none;
+        z-index: 2;
+      }
+
+      .top-banner img {
+        width: 100%;
+        height: auto;
+        max-height: 800px;
+        object-fit: contain;
+        object-position: top center;
+        background: var(--bg);
+        border-radius: 0px;
+        border: 0;
+        position: relative;
+        z-index: 1;
+        display: block;
+      }
+
+      .banner-badge {
+      position: absolute;
+      bottom: calc(28% + 12px);
+      right: calc(32% + 12px);
+      z-index: 3;
+
+      display: inline-flex;
+      align-items: baseline;
+      gap: clamp(4px, 0.6vw, 7px);
+
+      padding: clamp(6px, 0.8vw, 9px) clamp(8px, 1.1vw, 11px);
+      line-height: 1;
+
+      color: rgba(255, 255, 255, 0.85);
+      background: rgba(20, 22, 24, 0.55);
+      backdrop-filter: blur(6px);
+
+      border: 1px solid rgba(255, 244, 232, 0.2);
+      border-radius: 999px;
+
+      font-size: clamp(0.66rem, 0.95vw, 0.82rem);
+      text-transform: lowercase;
+      letter-spacing: 0.02em;
+      text-decoration: none;
+    }
+
+      .banner-badge-icon {
+        font-size: clamp(0.68rem, 1vw, 0.85rem);
+        position: relative;
+        top: 1px;
+      }
+
+      main {
+        width: 100%;
+        max-width: none;
+        margin: 0;
+        padding: 0 24px 60px;
+        background: #676D70;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(12px);
+      }
+
+      section {
+        margin-bottom: 60px;
+      }
+
+      h1, h2 { margin: 0 0 12px; }
+
+      p { color: var(--muted); }
+
+      /* HOME PHOTO */
+      .home {
+        border: 0;
+        padding: 40px 60px 24px;
+        position: relative;
+      }
+
+      /* GALLERY */
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 14px;
+      }
+
+      .gallery-item {
+        height: 180px;
+        background: #2a2a2a;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #666;
+        font-size: 0.9rem;
+      }
+
+      /* CONTACT */
+      .contact {
+        padding: 30px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: var(--surface);
+      }
+
+      .contact p { margin: 6px 0; }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <div class="header-inner">
+        <div class="logo">Yigong Hair Stylist</div>
+        <nav>
+          <a href="#about">About</a>
+          <a href="./gallery.html">Gallery</a>
+          <div class="language-menu">
+            <span class="language-current">EN</span>
+            <div class="language-options">
+              <a href="#">EN</a>
+              <a href="#">FR</a>
+              <a href="#">繁</a>
+              <a href="#">简</a>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <div class="top-banner">
+      <!-- Replace src with your image path or image URL -->
+      <img src="./images/home4.png" alt="Hair styling showcase" />
+      <a class="banner-badge" href="#contact">
+        <span class="banner-badge-icon">✂</span>
+        <span>get a haircut</span>
+      </a>
+    </div>
+
+    <main>
+      <section id="about" class="home">
+        <h1>About Me</h1>
+        <p>
+          Professional hair stylist specializing in modern cuts, coloring,
+          and personalized styling. I focus on clean aesthetics and natural
+          looks tailored to each client.
+        </p>
+      </section>
+
+      <!-- CONTACT -->
+      <section id="contact" class="contact">
+        <h2>Contact</h2>
+        <p>Instagram: @yourhandle</p>
+        <p>Email: your@email.com</p>
+        <p>Phone: (123) 456-7890</p>
+      </section>
+    </main>
+  </body>
+</html>

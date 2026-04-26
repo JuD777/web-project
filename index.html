@@ -64,53 +64,6 @@
 
       nav a:hover { color: var(--text); }
 
-      .language-menu {
-        position: relative;
-        display: inline-block;
-        margin-left: clamp(12px, 2vw, 30px);
-        color: var(--muted);
-        font-size: clamp(0.9rem, 1.4vw, 1.12rem);
-        cursor: pointer;
-      }
-
-      .language-current {
-        color: var(--muted);
-      }
-
-      .language-menu:hover .language-current {
-        color: var(--text);
-      }
-
-      .language-options {
-        position: absolute;
-        top: calc(100% + 8px);
-        right: 0;
-        display: none;
-        min-width: 64px;
-        padding: 8px 10px;
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        border-radius: 10px;
-        background: rgba(20, 22, 24, 0.9);
-        backdrop-filter: blur(6px);
-      }
-
-      .language-options a {
-        display: block;
-        margin: 0;
-        padding: 4px 0;
-        color: var(--muted);
-        text-decoration: none;
-        font-size: 0.95rem;
-      }
-
-      .language-options a:hover {
-        color: var(--text);
-      }
-
-      .language-menu:hover .language-options {
-        display: block;
-      }
-
       .top-banner {
         width: 100%;
         margin: 90px auto 0;
@@ -122,7 +75,7 @@
       .top-banner::after {
         content: "";
         position: absolute;
-        top: 12%;
+        top: 7%;
         right: 32%;
         bottom: 28%;
         left: 32%;
@@ -237,19 +190,10 @@
   <body>
     <header>
       <div class="header-inner">
-        <div class="logo">Yigong Hair Stylist</div>
+        <div class="logo">Yigong</div>
         <nav>
           <a href="#about">About</a>
           <a href="./gallery.html">Gallery</a>
-          <div class="language-menu">
-            <span class="language-current">EN</span>
-            <div class="language-options">
-              <a href="#">EN</a>
-              <a href="#">FR</a>
-              <a href="#">繁</a>
-              <a href="#">简</a>
-            </div>
-          </div>
         </nav>
       </div>
     </header>
@@ -258,8 +202,7 @@
       <!-- Replace src with your image path or image URL -->
       <img src="./images/home4.png" alt="Hair styling showcase" />
       <a class="banner-badge" href="#contact">
-        <span class="banner-badge-icon">✂</span>
-        <span>get a haircut</span>
+        <span>book ✂ with me</span>
       </a>
     </div>
 

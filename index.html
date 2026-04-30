@@ -14,6 +14,8 @@
         --text: #E6E6E6;
         --muted: #aaaaaa;
         --line: #2a2a2a;
+        --page-padding: clamp(10px, 2vw, 20px);
+        --edge-margin: clamp(10px, 4vw, 60px);
       }
 
       * { box-sizing: border-box; }
@@ -38,7 +40,7 @@
         width: 100%;
         max-width: none;
         margin: 0;
-        padding: clamp(16px, 2.2vw, 26px) clamp(14px, 2vw, 24px);
+        padding: clamp(16px, 2.2vw, 26px) var(--page-padding);
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -46,23 +48,79 @@
       }
 
       .logo {
-        font-weight: 700;
-        font-size: clamp(1.35rem, 3vw, 2.5rem);
+        font-family: "Sackers Gothic Medium", sans-serif;
+        font-weight: 500; 
+        font-size: clamp(1.4rem, 3.2vw, 2.3rem);
+        letter-spacing: 0.08em;
         margin-left: clamp(10px, 4vw, 60px);
+        color: #E6E6E6;
       }
 
       nav {
-        margin-right: clamp(10px, 4vw, 60px);
+        margin-right: var(--edge-margin);
       }
 
       nav a {
+        font-family: "Cormorant", serif;
         color: var(--muted);
         text-decoration: none;
         margin-left: clamp(12px, 2vw, 30px);
-        font-size: clamp(0.9rem, 1.4vw, 1.12rem);
+        font-size: clamp(0.75rem, 1vw, 0.95rem);
       }
 
       nav a:hover { color: var(--text); }
+
+      .dropdown {
+        position: relative;
+        display: inline-block;
+        margin-left: clamp(12px, 2vw, 30px);
+      }
+
+      .dropdown > a {
+        margin-left: 0;
+      }
+
+      .dropdown-menu {
+        display: none;
+        position: absolute;
+        top: 100%; 
+        right: 0;
+        padding-top: 14px; 
+        padding-bottom: 10px; 
+        background: transparent; 
+        z-index: 20;
+      }
+
+      .dropdown-menu::before {
+        content: "";
+        position: absolute;
+        top: 6px; 
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--bg);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 8px;
+        z-index: -1;
+      }
+
+      .dropdown-menu a {
+        display: block;
+        margin-left: 0;
+        padding: 8px 12px;
+        font-size: clamp(0.65rem, 0.9vw, 0.85rem);
+        color: var(--muted);
+        text-decoration: none;
+        letter-spacing: 0.06em;
+      }
+
+      .dropdown-menu a:hover {
+        color: var(--text);
+      }
+
+      .dropdown:hover .dropdown-menu {
+        display: block;
+      }
 
       .top-banner {
         width: 100%;
@@ -79,7 +137,7 @@
         right: 32%;
         bottom: 28%;
         left: 32%;
-        border: 1px dashed rgba(255, 255, 255, 0.35);
+        border: 1px solid rgba(255, 255, 255, 0.35);
         border-radius: 12px;
         box-shadow: 0 0 0 1px rgba(255,255,255,0.04) inset;
         pointer-events: none;
@@ -132,6 +190,36 @@
         top: 1px;
       }
 
+      .banner-slogan {
+        position: absolute;
+        right: calc(var(--edge-margin) + 20px);
+        top: 25%;
+        transform: translateY(-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        text-align: right;
+        gap: 16px;
+        max-width: 320px;
+        z-index: 3;
+      }
+
+      .slogan-main {
+        font-family: "Cormorant", serif;
+        font-size: clamp(0.75rem, calc(0.4rem + 1.5vw), 1.3rem);
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        color: rgba(255,255,255,0.7);
+      }
+
+      .slogan-sub {
+        font-family: "Cormorant", serif;
+        font-size: clamp(0.65rem, calc(0.5rem + 1.2vw), 1.6rem);
+        font-weight: 500;
+        letter-spacing: 0.07m;
+        color: rgba(255,255,255,0.85);
+      }
+
       main {
         width: 100%;
         max-width: none;
@@ -174,26 +262,23 @@
         color: #666;
         font-size: 0.9rem;
       }
-
-      /* CONTACT */
-      .contact {
-        padding: 30px;
-        border: 1px solid var(--line);
-        border-radius: 14px;
-        background: var(--surface);
-      }
-
-      .contact p { margin: 6px 0; }
     </style>
   </head>
 
   <body>
     <header>
       <div class="header-inner">
-        <div class="logo">Yigong</div>
+        <div class="logo">YIGONG</div>
         <nav>
-          <a href="#about">About</a>
-          <a href="./gallery.html">Gallery</a>
+          <div class="dropdown">
+            <a href="./gallery.html">GALLERY</a>
+            <div class="dropdown-menu">
+              <a href="./gallery.html#cut">CUT</a>
+              <a href="./gallery.html#perm">PERM</a>
+              <a href="./gallery.html#color">COLOR</a>
+            </div>
+          </div>
+          <a href="#about">ABOUT</a>
         </nav>
       </div>
     </header>
@@ -202,8 +287,13 @@
       <!-- Replace src with your image path or image URL -->
       <img src="./images/home4.png" alt="Hair styling showcase" />
       <a class="banner-badge" href="#contact">
-        <span>book ✂ with me</span>
+        <span>book ✂ me</span>
       </a>
+       <!-- Slogan -->
+      <div class="banner-slogan">
+        <span class="slogan-main">shaped with intention</span>
+        <span class="slogan-sub">resonance over explanation</span>
+      </div>
     </div>
 
     <main>
@@ -215,14 +305,40 @@
           looks tailored to each client.
         </p>
       </section>
-
-      <!-- CONTACT -->
-      <section id="contact" class="contact">
-        <h2>Contact</h2>
-        <p>Instagram: @yourhandle</p>
-        <p>Email: your@email.com</p>
-        <p>Phone: (123) 456-7890</p>
-      </section>
     </main>
+    <footer id="contact" style="
+      background: #4F5254;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding: 32px clamp(20px, 5vw, 60px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    ">
+      <div>
+        <div style="font-size: 0.78rem; color: #aaaaaa; margin-top: 4px;">© 2026 YIGONG</div>
+      </div>
+    
+      <div style="display: flex; gap: 18px; align-items: center;">
+        <!-- Instagram -->
+        <a href="https://instagram.com/yourhandle"
+          target="_blank"
+          style="display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,0.2);color:#aaaaaa;text-decoration:none;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="5"/>
+            <circle cx="12" cy="12" r="5"/>
+            <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+          </svg>
+        </a>
+    
+        <!-- Threads -->
+        <a href="https://threads.net/@yourhandle"
+        target="_blank"
+        style="display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,0.2);color:#aaaaaa;text-decoration:none;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.589 12c.027 3.086.718 5.496 2.057 7.164 1.43 1.783 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.964-.065-1.19.408-2.285 1.33-3.082.88-.76 2.119-1.207 3.583-1.291a13.853 13.853 0 0 1 3.02.142c-.126-.742-.375-1.332-.75-1.757-.513-.583-1.301-.88-2.344-.887h-.045c-.797 0-1.821.199-2.498 1.17l-1.734-1.179c.934-1.37 2.354-2.131 4.232-2.148 3.843.03 5.965 2.422 5.965 6.682v.075a7.31 7.31 0 0 1-.116 1.314 5.55 5.55 0 0 1 1.347 1.316c.933 1.277 1.19 2.93.73 4.65-.603 2.266-2.508 4.12-5.032 4.968-.945.316-1.968.476-3.051.476z"/>
+        </svg>
+      </a>
+      </div>
+    </footer>
   </body>
 </html>

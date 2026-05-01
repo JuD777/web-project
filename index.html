@@ -19,6 +19,8 @@
         --edge-margin: clamp(10px, 4vw, 60px);
         /* Same horizontal start as .logo (header-inner pad + logo margin) */
         --logo-inset: calc(var(--page-padding) + var(--edge-margin));
+        /* Shared vertical rhythm for header bar and footer bar */
+        --header-pad-y: clamp(16px, 2.2vw, 26px);
       }
 
       * { box-sizing: border-box; }
@@ -43,7 +45,7 @@
         width: 100%;
         max-width: none;
         margin: 0;
-        padding: clamp(16px, 2.2vw, 26px) var(--page-padding);
+        padding: var(--header-pad-y) var(--page-padding);
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -137,6 +139,11 @@
       }
 
       .dropdown:hover .dropdown-menu {
+        display: block;
+      }
+
+      /* Touch / no-hover: menu opened via JS (.is-open), not :hover */
+      .dropdown.is-open .dropdown-menu {
         display: block;
       }
 
@@ -328,28 +335,6 @@
           display: block;
         }
 
-        /* MOBILE */
-        @media (max-width: 900px) {
-        .home {
-          grid-template-columns: 1fr;
-          row-gap: 10px;
-          text-align: left;
-          padding: clamp(24px, 4vw, 48px) var(--page-padding) 16px; 
-        }
-
-        .about-copy p {
-          font-size: clamp(0.75rem, 3vw, 1rem); /* 內文縮小 */
-          line-height: 1.5; /* 行距縮小 */
-          margin: 0 0 1em;
-        }
-
-        .about-photo {
-          grid-column: 1;
-          width: min(45%, 240px);
-          justify-self: center;
-        }
-      }
-
       .site-footer {
         background: #4f5254;
         border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -360,6 +345,101 @@
         align-items: center;
       }
 
+      .footer-socials {
+        display: flex;
+        gap: 18px;
+        align-items: center;
+      }
+
+      .footer-icon-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #aaaaaa;
+        text-decoration: none;
+      }
+
+      .footer-copyright {
+        font-size: 0.78rem;
+        color: #aaaaaa;
+        margin-top: 4px;
+      }
+
+        /* MOBILE */
+        @media (max-width: 900px) {
+        /* Spare height goes between hero and about; portrait→footer stays tight. */
+        .page-stack {
+          display: flex;
+          flex-direction: column;
+          min-height: 100dvh;
+        }
+
+        .top-banner,
+        .site-footer {
+          flex-shrink: 0;
+        }
+
+        main {
+          flex: 1 1 auto;
+          display: flex;
+          flex-direction: column;
+          min-height: 0;
+          padding-bottom: 20px;
+        }
+
+        section {
+          margin-bottom: 16px;
+        }
+
+        .home {
+          margin-top: auto;
+          grid-template-columns: 1fr;
+          row-gap: 10px;
+          text-align: left;
+          padding: clamp(24px, 4vw, 48px) var(--page-padding) 10px;
+        }
+
+        .about-copy p {
+          font-size: clamp(0.75rem, 3vw, 1rem); 
+          line-height: 1.5; 
+          margin: 0 0 1em;
+        }
+
+        .about-photo {
+          grid-column: 1;
+          width: min(45%, 240px);
+          justify-self: center;
+        }
+
+        .site-footer {
+          padding: var(--header-pad-y)
+            calc(var(--page-padding) + var(--edge-margin)) var(--header-pad-y)
+            var(--logo-inset);
+          min-height: calc(
+            2 * var(--header-pad-y) +
+              1.25 * clamp(1.4rem, 3.2vw, 2.3rem)
+          );
+        }
+
+        .footer-copyright {
+          margin-top: 0;
+        }
+
+        .footer-icon-link {
+          width: 30px;
+          height: 30px;
+        }
+
+        .footer-icon-link svg {
+          transform: scale(0.92);
+          transform-origin: center;
+        }
+      }
+
     </style>
   </head>
 
@@ -368,8 +448,13 @@
       <div class="header-inner">
         <div class="logo">YIGONG</div>
         <nav>
-          <div class="dropdown">
-            <a href="./gallery.html">GALLERY</a>
+          <div class="dropdown" id="nav-gallery-dropdown">
+            <a
+              href="./gallery.html"
+              class="gallery-nav-trigger"
+              aria-haspopup="true"
+              aria-expanded="false"
+              >GALLERY</a>
             <div class="dropdown-menu">
               <a href="./gallery.html#cut">CUT</a>
               <a href="./gallery.html#perm">PERM</a>
@@ -395,10 +480,16 @@
       </div>
     </header>
 
+    <div class="page-stack">
     <div class="top-banner">
       <!-- Replace src with your image path or image URL -->
       <img src="./images/home4.png" alt="Hair styling showcase" />
-      <a class="banner-badge" href="#contact">
+      <a
+        class="banner-badge"
+        href="https://www.instagram.com/yg.0909/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         <span>book ✂ me</span>
       </a>
        <!-- Slogan -->
@@ -433,30 +524,82 @@
     </main>
     <footer id="contact" class="site-footer">
       <div>
-        <div style="font-size: 0.78rem; color: #aaaaaa; margin-top: 4px;">© 2026 YIGONG</div>
+        <div class="footer-copyright">© 2026 YIGONG</div>
       </div>
-    
-      <div style="display: flex; gap: 18px; align-items: center;">
+
+      <div class="footer-socials">
         <!-- Instagram -->
-        <a href="https://www.instagram.com/yg.0909/"
+        <a
+          class="footer-icon-link"
+          href="https://www.instagram.com/yg.0909/"
           target="_blank"
-          style="display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,0.2);color:#aaaaaa;text-decoration:none;">
+          rel="noopener noreferrer"
+        >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
             <rect x="2" y="2" width="20" height="20" rx="5"/>
             <circle cx="12" cy="12" r="5"/>
             <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
           </svg>
         </a>
-    
+
         <!-- Threads -->
-        <a href="https://www.threads.com/@yg.0909"
-        target="_blank"
-        style="display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,0.2);color:#aaaaaa;text-decoration:none;">
+        <a
+          class="footer-icon-link"
+          href="https://www.threads.com/@yg.0909"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
           <path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.589 12c.027 3.086.718 5.496 2.057 7.164 1.43 1.783 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.964-.065-1.19.408-2.285 1.33-3.082.88-.76 2.119-1.207 3.583-1.291a13.853 13.853 0 0 1 3.02.142c-.126-.742-.375-1.332-.75-1.757-.513-.583-1.301-.88-2.344-.887h-.045c-.797 0-1.821.199-2.498 1.17l-1.734-1.179c.934-1.37 2.354-2.131 4.232-2.148 3.843.03 5.965 2.422 5.965 6.682v.075a7.31 7.31 0 0 1-.116 1.314 5.55 5.55 0 0 1 1.347 1.316c.933 1.277 1.19 2.93.73 4.65-.603 2.266-2.508 4.12-5.032 4.968-.945.316-1.968.476-3.051.476z"/>
         </svg>
       </a>
       </div>
     </footer>
+    </div>
+    <script>
+      (function () {
+        var dropdown = document.getElementById("nav-gallery-dropdown");
+        if (!dropdown) return;
+        var trigger = dropdown.querySelector(".gallery-nav-trigger");
+        var menu = dropdown.querySelector(".dropdown-menu");
+        if (!trigger || !menu) return;
+
+        function isNoHoverPrimary() {
+          return window.matchMedia("(hover: none)").matches;
+        }
+
+        function setOpen(open) {
+          dropdown.classList.toggle("is-open", open);
+          trigger.setAttribute("aria-expanded", open ? "true" : "false");
+        }
+
+        trigger.addEventListener("click", function (e) {
+          if (!isNoHoverPrimary()) return;
+          if (dropdown.classList.contains("is-open")) {
+            setOpen(false);
+            return;
+          }
+          e.preventDefault();
+          setOpen(true);
+        });
+
+        menu.querySelectorAll("a").forEach(function (link) {
+          link.addEventListener("click", function () {
+            setOpen(false);
+          });
+        });
+
+        document.addEventListener("click", function (e) {
+          if (!dropdown.classList.contains("is-open")) return;
+          if (!dropdown.contains(e.target)) setOpen(false);
+        });
+
+        window
+          .matchMedia("(hover: none)")
+          .addEventListener("change", function (ev) {
+            if (!ev.matches) setOpen(false);
+          });
+      })();
+    </script>
   </body>
 </html>

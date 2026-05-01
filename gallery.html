@@ -17,6 +17,7 @@
         --page-padding: clamp(10px, 2vw, 20px);
         --edge-margin: clamp(10px, 4vw, 60px);
         --logo-inset: calc(var(--page-padding) + var(--edge-margin));
+        --header-pad-y: clamp(16px, 2.2vw, 26px);
       }
 
       * { box-sizing: border-box; }
@@ -41,7 +42,7 @@
         width: 100%;
         max-width: none;
         margin: 0;
-        padding: clamp(16px, 2.2vw, 26px) var(--page-padding);
+        padding: var(--header-pad-y) var(--page-padding);
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -141,6 +142,11 @@
         display: block;
       }
 
+      /* Touch / no-hover: menu opened via JS (.is-open), not :hover */
+      .dropdown.is-open .dropdown-menu {
+        display: block;
+      }
+
       main {
         width: 100%;
         max-width: none;
@@ -185,9 +191,67 @@
         grid-template-columns: repeat(4, minmax(0, 1fr));
       }
 
+      .site-footer {
+        background: #4f5254;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 32px calc(var(--page-padding) + var(--edge-margin)) 32px
+          var(--logo-inset);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .footer-socials {
+        display: flex;
+        gap: 18px;
+        align-items: center;
+      }
+
+      .footer-icon-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #aaaaaa;
+        text-decoration: none;
+      }
+
+      .footer-copyright {
+        font-size: 0.78rem;
+        color: #aaaaaa;
+        margin-top: 4px;
+      }
+
       @media (max-width: 900px) {
         .gallery-grid--row4 {
           grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .site-footer {
+          padding: var(--header-pad-y)
+            calc(var(--page-padding) + var(--edge-margin)) var(--header-pad-y)
+            var(--logo-inset);
+          min-height: calc(
+            2 * var(--header-pad-y) +
+              1.25 * clamp(1.4rem, 3.2vw, 2.3rem)
+          );
+        }
+
+        .footer-copyright {
+          margin-top: 0;
+        }
+
+        .footer-icon-link {
+          width: 30px;
+          height: 30px;
+        }
+
+        .footer-icon-link svg {
+          transform: scale(0.92);
+          transform-origin: center;
         }
       }
 
@@ -211,16 +275,6 @@
         background: rgba(0, 0, 0, 0.06);
         box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.03) inset;
       }
-
-      .site-footer {
-        background: #4f5254;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        padding: 32px calc(var(--page-padding) + var(--edge-margin)) 32px
-          var(--logo-inset);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
     </style>
   </head>
   <body>
@@ -228,8 +282,13 @@
       <div class="header-inner">
         <a class="logo" href="./index.html">YIGONG</a>
         <nav>
-          <div class="dropdown">
-            <a href="./gallery.html">GALLERY</a>
+          <div class="dropdown" id="nav-gallery-dropdown">
+            <a
+              href="./gallery.html"
+              class="gallery-nav-trigger"
+              aria-haspopup="true"
+              aria-expanded="false"
+              >GALLERY</a>
             <div class="dropdown-menu">
               <a href="./gallery.html#cut">CUT</a>
               <a href="./gallery.html#perm">PERM</a>
@@ -331,16 +390,15 @@
 
     <footer id="contact" class="site-footer">
       <div>
-        <div style="font-size: 0.78rem; color: #aaaaaa; margin-top: 4px;">
-          © 2026 YIGONG
-        </div>
+        <div class="footer-copyright">© 2026 YIGONG</div>
       </div>
 
-      <div style="display: flex; gap: 18px; align-items: center;">
+      <div class="footer-socials">
         <a
+          class="footer-icon-link"
           href="https://www.instagram.com/yg.0909/"
           target="_blank"
-          style="display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,0.2);color:#aaaaaa;text-decoration:none;"
+          rel="noopener noreferrer"
         >
           <svg
             width="18"
@@ -359,9 +417,10 @@
         </a>
 
         <a
+          class="footer-icon-link"
           href="https://www.threads.com/@yg.0909"
           target="_blank"
-          style="display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,0.2);color:#aaaaaa;text-decoration:none;"
+          rel="noopener noreferrer"
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
             <path
@@ -371,5 +430,50 @@
         </a>
       </div>
     </footer>
+    <script>
+      (function () {
+        var dropdown = document.getElementById("nav-gallery-dropdown");
+        if (!dropdown) return;
+        var trigger = dropdown.querySelector(".gallery-nav-trigger");
+        var menu = dropdown.querySelector(".dropdown-menu");
+        if (!trigger || !menu) return;
+
+        function isNoHoverPrimary() {
+          return window.matchMedia("(hover: none)").matches;
+        }
+
+        function setOpen(open) {
+          dropdown.classList.toggle("is-open", open);
+          trigger.setAttribute("aria-expanded", open ? "true" : "false");
+        }
+
+        trigger.addEventListener("click", function (e) {
+          if (!isNoHoverPrimary()) return;
+          if (dropdown.classList.contains("is-open")) {
+            setOpen(false);
+            return;
+          }
+          e.preventDefault();
+          setOpen(true);
+        });
+
+        menu.querySelectorAll("a").forEach(function (link) {
+          link.addEventListener("click", function () {
+            setOpen(false);
+          });
+        });
+
+        document.addEventListener("click", function (e) {
+          if (!dropdown.classList.contains("is-open")) return;
+          if (!dropdown.contains(e.target)) setOpen(false);
+        });
+
+        window
+          .matchMedia("(hover: none)")
+          .addEventListener("change", function (ev) {
+            if (!ev.matches) setOpen(false);
+          });
+      })();
+    </script>
   </body>
 </html>

@@ -7,6 +7,7 @@
 
     <style>
       @import url("https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600&display=swap");
 
       :root {
         --bg: #4F5254;
@@ -16,6 +17,8 @@
         --line: #2a2a2a;
         --page-padding: clamp(10px, 2vw, 20px);
         --edge-margin: clamp(10px, 4vw, 60px);
+        /* Same horizontal start as .logo (header-inner pad + logo margin) */
+        --logo-inset: calc(var(--page-padding) + var(--edge-margin));
       }
 
       * { box-sizing: border-box; }
@@ -78,6 +81,21 @@
 
       .dropdown > a {
         margin-left: 0;
+      }
+
+      /* CONTACT label — opens menu on hover, does not navigate */
+      .dropdown > .dropdown-trigger {
+        margin-left: 0;
+        font-family: "Cormorant", serif;
+        color: var(--muted);
+        font-size: clamp(0.75rem, 1vw, 0.95rem);
+        letter-spacing: 0.06em;
+        cursor: default;
+        user-select: none;
+      }
+
+      .dropdown:hover > .dropdown-trigger {
+        color: var(--text);
       }
 
       .dropdown-menu {
@@ -224,7 +242,7 @@
         width: 100%;
         max-width: none;
         margin: 0;
-        padding: 0 24px 60px;
+        padding: 0 0 60px;
         background: #676D70;
         border: 1px solid rgba(255, 255, 255, 0.08);
         backdrop-filter: blur(12px);
@@ -238,30 +256,110 @@
 
       p { color: var(--muted); }
 
-      /* HOME PHOTO */
-      .home {
-        border: 0;
-        padding: 40px 60px 24px;
-        position: relative;
+      /* ABOUT — centered editorial layout */
+        .home {
+          border: 0;
+
+          max-width: 1200px;
+          margin: 0 auto;
+
+          padding: clamp(56px, 8vw, 112px)
+            var(--page-padding)
+            24px;
+
+          display: grid;
+
+          grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+
+          column-gap: clamp(32px, 5vw, 72px);
+          align-items: center;
+        }
+
+        /* TEXT */
+        .about-copy {
+          grid-column: 1;
+          justify-self: end;
+
+          min-width: 0;
+          max-width: 63ch;
+
+          font-family: "Cormorant", serif;
+        }
+
+        .about-copy p {
+          /* 0.3vw between 1rem–1.15rem was ~2px total — use a real fluid range */
+          font-size: clamp(0.7rem, 0.6rem + 1.1vw, 1.22rem);
+          line-height: 1.7;
+
+          margin: 0 0 1.5em;
+          color: rgba(255, 255, 255, 0.75);
+        }
+
+        /* IMAGE — width tracks viewport so ratio stays consistent when resizing */
+        .about-photo {
+          grid-column: 2;
+          justify-self: center;
+          align-self: center;
+
+          box-sizing: border-box;
+          width: min(100%, clamp(168px, 38vw, 420px));
+          max-width: 100%;
+          min-width: 0;
+
+          aspect-ratio: 3 / 4;
+          height: auto;
+
+          border-radius: 12px;
+          overflow: hidden;
+
+          border: 1px solid rgba(255, 255, 255, 0.14);
+          background: rgba(0, 0, 0, 0.12);
+
+          box-shadow:
+            0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+        }
+
+        .about-photo img {
+          width: 100%;
+          height: 100%;
+          min-height: 0;
+          object-fit: cover;
+          object-position: 50% center;
+          display: block;
+        }
+
+        /* MOBILE */
+        @media (max-width: 900px) {
+        .home {
+          grid-template-columns: 1fr;
+          row-gap: 10px;
+          text-align: left;
+          padding: clamp(24px, 4vw, 48px) var(--page-padding) 16px; 
+        }
+
+        .about-copy p {
+          font-size: clamp(0.75rem, 3vw, 1rem); /* 內文縮小 */
+          line-height: 1.5; /* 行距縮小 */
+          margin: 0 0 1em;
+        }
+
+        .about-photo {
+          grid-column: 1;
+          width: min(45%, 240px);
+          justify-self: center;
+        }
       }
 
-      /* GALLERY */
-      .gallery-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 14px;
-      }
-
-      .gallery-item {
-        height: 180px;
-        background: #2a2a2a;
-        border-radius: 12px;
+      .site-footer {
+        background: #4f5254;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 32px calc(var(--page-padding) + var(--edge-margin)) 32px
+          var(--logo-inset);
         display: flex;
+        justify-content: space-between;
         align-items: center;
-        justify-content: center;
-        color: #666;
-        font-size: 0.9rem;
       }
+
     </style>
   </head>
 
@@ -279,6 +377,20 @@
             </div>
           </div>
           <a href="#about">ABOUT</a>
+          <div class="dropdown">
+            <span
+              class="dropdown-trigger"
+              aria-haspopup="true"
+              aria-expanded="false"
+              >CONTACT</span>
+            <div class="dropdown-menu">
+              <a
+                href="https://www.instagram.com/yg.0909/"
+                target="_blank"
+                rel="noopener noreferrer"
+                >INSTAGRAM</a>
+            </div>
+          </div>
         </nav>
       </div>
     </header>
@@ -298,29 +410,35 @@
 
     <main>
       <section id="about" class="home">
-        <h1>About Me</h1>
-        <p>
-          Professional hair stylist specializing in modern cuts, coloring,
-          and personalized styling. I focus on clean aesthetics and natural
-          looks tailored to each client.
-        </p>
+        <div class="about-copy">
+          <p class="about-text">
+            Professional hair stylist specializing in modern cuts, coloring, and personalized styling. I focus on clean aesthetics and natural looks tailored to each client.
+            </p>
+            
+            <p class="about-text">
+              I approach hair as a form of quiet design—subtle, intentional, and rooted in natural movement. Rather than dramatic transformation, I focus on refinement: small adjustments that create harmony between structure, texture, and personality.
+            </p>
+
+            <p class="about-text">
+              The goal is simple—hair that feels effortless, grows out beautifully, and fits naturally into your life without needing constant attention.
+            </p>
+        </div>
+        <figure class="about-photo">
+          <img
+            src="./images/home.jpeg"
+            alt="Yigong — portrait in the studio"
+          />
+        </figure>
       </section>
     </main>
-    <footer id="contact" style="
-      background: #4F5254;
-      border-top: 1px solid rgba(255,255,255,0.1);
-      padding: 32px clamp(20px, 5vw, 60px);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    ">
+    <footer id="contact" class="site-footer">
       <div>
         <div style="font-size: 0.78rem; color: #aaaaaa; margin-top: 4px;">© 2026 YIGONG</div>
       </div>
     
       <div style="display: flex; gap: 18px; align-items: center;">
         <!-- Instagram -->
-        <a href="https://instagram.com/yourhandle"
+        <a href="https://www.instagram.com/yg.0909/"
           target="_blank"
           style="display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,0.2);color:#aaaaaa;text-decoration:none;">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -331,7 +449,7 @@
         </a>
     
         <!-- Threads -->
-        <a href="https://threads.net/@yourhandle"
+        <a href="https://www.threads.com/@yg.0909"
         target="_blank"
         style="display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,0.2);color:#aaaaaa;text-decoration:none;">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">

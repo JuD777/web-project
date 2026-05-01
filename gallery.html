@@ -14,6 +14,9 @@
         --text: #e6e6e6;
         --muted: #aaaaaa;
         --line: #2a2a2a;
+        --page-padding: clamp(10px, 2vw, 20px);
+        --edge-margin: clamp(10px, 4vw, 60px);
+        --logo-inset: calc(var(--page-padding) + var(--edge-margin));
       }
 
       * { box-sizing: border-box; }
@@ -30,62 +33,162 @@
         top: 0;
         width: 100%;
         background: var(--bg);
+        border-bottom: 0;
         z-index: 10;
       }
 
       .header-inner {
         width: 100%;
+        max-width: none;
         margin: 0;
-        padding: clamp(16px, 2.2vw, 26px) clamp(14px, 2vw, 24px);
+        padding: clamp(16px, 2.2vw, 26px) var(--page-padding);
         display: flex;
         justify-content: space-between;
         align-items: center;
+        font-family: "Satoshi", system-ui, sans-serif;
       }
 
       .logo {
-        font-weight: 700;
-        font-size: clamp(1.35rem, 3vw, 2.5rem);
+        font-family: "Sackers Gothic Medium", sans-serif;
+        font-weight: 500;
+        font-size: clamp(1.4rem, 3.2vw, 2.3rem);
+        letter-spacing: 0.08em;
         margin-left: clamp(10px, 4vw, 60px);
-        color: var(--text);
+        color: #e6e6e6;
         text-decoration: none;
       }
 
       nav {
-        margin-right: clamp(10px, 4vw, 60px);
+        margin-right: var(--edge-margin);
       }
 
       nav a {
+        font-family: "Cormorant", serif;
         color: var(--muted);
         text-decoration: none;
         margin-left: clamp(12px, 2vw, 30px);
-        font-size: clamp(0.9rem, 1.4vw, 1.12rem);
+        font-size: clamp(0.75rem, 1vw, 0.95rem);
       }
 
-      nav a:hover,
-      nav a.active {
+      nav a:hover {
         color: var(--text);
+      }
+
+      .dropdown {
+        position: relative;
+        display: inline-block;
+        margin-left: clamp(12px, 2vw, 30px);
+      }
+
+      .dropdown > a {
+        margin-left: 0;
+      }
+
+      /* CONTACT label — opens menu on hover, does not navigate */
+      .dropdown > .dropdown-trigger {
+        margin-left: 0;
+        font-family: "Cormorant", serif;
+        color: var(--muted);
+        font-size: clamp(0.75rem, 1vw, 0.95rem);
+        letter-spacing: 0.06em;
+        cursor: default;
+        user-select: none;
+      }
+
+      .dropdown:hover > .dropdown-trigger {
+        color: var(--text);
+      }
+
+      .dropdown-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        padding-top: 14px;
+        padding-bottom: 10px;
+        background: transparent;
+        z-index: 20;
+      }
+
+      .dropdown-menu::before {
+        content: "";
+        position: absolute;
+        top: 6px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--bg);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        z-index: -1;
+      }
+
+      .dropdown-menu a {
+        display: block;
+        margin-left: 0;
+        padding: 8px 12px;
+        font-size: clamp(0.65rem, 0.9vw, 0.85rem);
+        color: var(--muted);
+        text-decoration: none;
+        letter-spacing: 0.06em;
+      }
+
+      .dropdown-menu a:hover {
+        color: var(--text);
+      }
+
+      .dropdown:hover .dropdown-menu {
+        display: block;
       }
 
       main {
         width: 100%;
-        padding: 120px 24px 60px;
-      }
-
-      .gallery-wrap {
+        max-width: none;
+        margin: 0;
+        padding: clamp(88px, 11vw, 108px) 0 60px;
         background: #676d70;
         border: 1px solid rgba(255, 255, 255, 0.08);
         backdrop-filter: blur(12px);
-        padding: 40px;
       }
 
-      .gallery-title {
-        margin: 0 0 20px;
+      .gallery-wrap {
+        padding: clamp(24px, 4vw, 40px)
+          calc(var(--page-padding) + var(--edge-margin)) 0
+          var(--logo-inset);
+      }
+
+      .gallery-section {
+        margin-bottom: clamp(48px, 7vw, 80px);
+        scroll-margin-top: 96px;
+      }
+
+      .gallery-section:last-child {
+        margin-bottom: 0;
+      }
+
+      .gallery-section-title {
+        font-family: "Cormorant", serif;
+        font-size: clamp(1.15rem, 2.4vw, 1.65rem);
+        font-weight: 500;
+        letter-spacing: 0.12em;
+        margin: 0 0 22px;
+        color: var(--text);
       }
 
       .gallery-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 16px;
+        gap: clamp(12px, 1.8vw, 18px);
+      }
+
+      /* Four tiles per row on wide viewports */
+      .gallery-grid--row4 {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      @media (max-width: 900px) {
+        .gallery-grid--row4 {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
       }
 
       .gallery-item {
@@ -93,7 +196,8 @@
         background: var(--surface);
         border-radius: 12px;
         overflow: hidden;
-        min-height: 240px;
+        aspect-ratio: 3 / 4;
+        min-height: 180px;
       }
 
       .gallery-item img {
@@ -103,44 +207,169 @@
         display: block;
       }
 
-      .placeholder {
+      .gallery-item--empty {
+        background: rgba(0, 0, 0, 0.06);
+        box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.03) inset;
+      }
+
+      .site-footer {
+        background: #4f5254;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 32px calc(var(--page-padding) + var(--edge-margin)) 32px
+          var(--logo-inset);
         display: flex;
+        justify-content: space-between;
         align-items: center;
-        justify-content: center;
-        color: #c5c5c5;
-        font-size: 0.95rem;
-        height: 100%;
       }
     </style>
   </head>
   <body>
     <header>
       <div class="header-inner">
-        <a class="logo" href="./index.html">Yigong</a>
+        <a class="logo" href="./index.html">YIGONG</a>
         <nav>
-          <a href="./index.html#contact">Contact</a>
+          <div class="dropdown">
+            <a href="./gallery.html">GALLERY</a>
+            <div class="dropdown-menu">
+              <a href="./gallery.html#cut">CUT</a>
+              <a href="./gallery.html#perm">PERM</a>
+              <a href="./gallery.html#color">COLOR</a>
+            </div>
+          </div>
+          <div class="dropdown">
+            <span
+              class="dropdown-trigger"
+              aria-haspopup="true"
+              aria-expanded="false"
+              >CONTACT</span>
+            <div class="dropdown-menu">
+              <a
+                href="https://www.instagram.com/yg.0909/"
+                target="_blank"
+                rel="noopener noreferrer"
+                >INSTAGRAM</a>
+            </div>
+          </div>
         </nav>
       </div>
     </header>
 
     <main>
       <section class="gallery-wrap">
-        <h1 class="gallery-title">Gallery</h1>
-        <div class="gallery-grid">
-          <article class="gallery-item">
-            <img src="./images/home.jpeg" alt="Hair styling sample 1" />
-          </article>
-          <article class="gallery-item">
-            <div class="placeholder">Add image 2</div>
-          </article>
-          <article class="gallery-item">
-            <div class="placeholder">Add image 3</div>
-          </article>
-          <article class="gallery-item">
-            <div class="placeholder">Add image 4</div>
-          </article>
-        </div>
+        <section id="cut" class="gallery-section" aria-labelledby="cut-heading">
+          <h2 id="cut-heading" class="gallery-section-title">CUT</h2>
+          <div class="gallery-grid gallery-grid--row4">
+            <article class="gallery-item">
+              <img src="./images/cut1.jpg" alt="Cut style 1" />
+            </article>
+            <article class="gallery-item">
+              <img src="./images/cut2.jpg" alt="Cut style 2" />
+            </article>
+            <article class="gallery-item">
+              <img src="./images/cut3.jpg" alt="Cut style 3" />
+            </article>
+            <article class="gallery-item">
+              <img src="./images/cut4.jpg" alt="Cut style 4" />
+            </article>
+            <article class="gallery-item">
+              <img src="./images/cut5.jpg" alt="Cut style 5" />
+            </article>
+            <article class="gallery-item">
+              <img src="./images/cut6.jpg" alt="Cut style 6" /> 
+            </article>
+            <article class="gallery-item">
+              <img src="./images/cut7.jpg" alt="Cut style 7" />
+            </article>
+            <article class="gallery-item">
+              <img src="./images/home.jpeg" alt="Home" />
+            </article>
+          </div>
+        </section>
+
+        <section id="perm" class="gallery-section" aria-labelledby="perm-heading">
+          <h2 id="perm-heading" class="gallery-section-title">PERM</h2>
+          <div class="gallery-grid gallery-grid--row4">
+            <article class="gallery-item">
+              <img src="./images/perm1.jpg" alt="Perm style 1" />
+            </article>
+            <article class="gallery-item">
+              <img src="./images/perm2.jpg" alt="Perm style 2" />
+            </article>
+            <article class="gallery-item">
+              <img src="./images/perm3.jpg" alt="Perm style 3" />
+            </article>
+            <article
+              class="gallery-item gallery-item--empty"
+              aria-hidden="true"
+            ></article>
+          </div>
+        </section>
+
+        <section id="color" class="gallery-section" aria-labelledby="color-heading">
+          <h2 id="color-heading" class="gallery-section-title">COLOR</h2>
+          <div class="gallery-grid gallery-grid--row4">
+            <article
+              class="gallery-item gallery-item--empty"
+              aria-hidden="true"
+            ></article>
+            <article
+              class="gallery-item gallery-item--empty"
+              aria-hidden="true"
+            ></article>
+            <article
+              class="gallery-item gallery-item--empty"
+              aria-hidden="true"
+            ></article>
+            <article
+              class="gallery-item gallery-item--empty"
+              aria-hidden="true"
+            ></article>
+          </div>
+        </section>
       </section>
     </main>
+
+    <footer id="contact" class="site-footer">
+      <div>
+        <div style="font-size: 0.78rem; color: #aaaaaa; margin-top: 4px;">
+          © 2026 YIGONG
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 18px; align-items: center;">
+        <a
+          href="https://www.instagram.com/yg.0909/"
+          target="_blank"
+          style="display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,0.2);color:#aaaaaa;text-decoration:none;"
+        >
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <rect x="2" y="2" width="20" height="20" rx="5" />
+            <circle cx="12" cy="12" r="5" />
+            <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+          </svg>
+        </a>
+
+        <a
+          href="https://www.threads.com/@yg.0909"
+          target="_blank"
+          style="display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,0.2);color:#aaaaaa;text-decoration:none;"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.589 12c.027 3.086.718 5.496 2.057 7.164 1.43 1.783 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.964-.065-1.19.408-2.285 1.33-3.082.88-.76 2.119-1.207 3.583-1.291a13.853 13.853 0 0 1 3.02.142c-.126-.742-.375-1.332-.75-1.757-.513-.583-1.301-.88-2.344-.887h-.045c-.797 0-1.821.199-2.498 1.17l-1.734-1.179c.934-1.37 2.354-2.131 4.232-2.148 3.843.03 5.965 2.422 5.965 6.682v.075a7.31 7.31 0 0 1-.116 1.314 5.55 5.55 0 0 1 1.347 1.316c.933 1.277 1.19 2.93.73 4.65-.603 2.266-2.508 4.12-5.032 4.968-.945.316-1.968.476-3.051.476z"
+            />
+          </svg>
+        </a>
+      </div>
+    </footer>
   </body>
 </html>

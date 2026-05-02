@@ -227,8 +227,43 @@
       }
 
       @media (max-width: 900px) {
+        main {
+          padding: clamp(76px, 18vw, 96px) 0 48px;
+        }
+
+        .gallery-wrap {
+          padding: clamp(16px, 4vw, 28px) var(--page-padding) 0;
+        }
+
+        .gallery-section {
+          scroll-margin-top: 80px;
+        }
+
+        .gallery-item {
+          min-height: 140px;
+        }
+
         .gallery-grid--row4 {
           grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .lightbox {
+          align-items: center;
+          justify-content: center;
+          padding: max(52px, calc(env(safe-area-inset-top) + 40px))
+            max(12px, env(safe-area-inset-right))
+            max(20px, env(safe-area-inset-bottom))
+            max(12px, env(safe-area-inset-left));
+          overflow: auto;
+          -webkit-overflow-scrolling: touch;
+        }
+
+        .lightbox-img {
+          max-width: calc(100vw - 24px);
+          width: auto;
+          height: auto;
+          max-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 96px);
+          max-height: calc(100svh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 96px);
         }
 
         .site-footer {
@@ -270,6 +305,71 @@
         height: 100%;
         object-fit: cover;
         display: block;
+        cursor: zoom-in;
+      }
+
+      .lightbox {
+        position: fixed;
+        inset: 0;
+        z-index: 100;
+        align-items: center;
+        justify-content: center;
+        padding: max(16px, env(safe-area-inset-top))
+          max(16px, env(safe-area-inset-right))
+          max(16px, env(safe-area-inset-bottom))
+          max(16px, env(safe-area-inset-left));
+        box-sizing: border-box;
+        background: rgba(12, 12, 12, 0.92);
+        cursor: zoom-out;
+      }
+
+      /* Author `display: flex` must not override the `hidden` attribute */
+      .lightbox[hidden] {
+        display: none !important;
+      }
+
+      .lightbox:not([hidden]) {
+        display: flex;
+      }
+
+      .lightbox-img {
+        display: block;
+        max-width: min(100%, calc(100vw - 32px));
+        width: auto;
+        height: auto;
+        max-height: calc(
+          100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 48px
+        );
+        object-fit: contain;
+        object-position: center;
+        cursor: default;
+        border-radius: 4px;
+      }
+
+      .lightbox-close {
+        position: fixed;
+        top: max(4px, env(safe-area-inset-top));
+        right: max(4px, env(safe-area-inset-right));
+        z-index: 101;
+        margin: 0;
+        padding: 14px;
+        border: 0;
+        background: transparent;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 2rem;
+        font-weight: 200;
+        line-height: 1;
+        cursor: pointer;
+      }
+
+      .lightbox-close:hover {
+        color: #fff;
+      }
+
+      .lightbox-close:focus-visible {
+        color: #fff;
+        outline: 1px solid rgba(255, 255, 255, 0.35);
+        outline-offset: 2px;
       }
 
     </style>
@@ -364,6 +464,20 @@
       </section>
     </main>
 
+    <div
+      id="lightbox"
+      class="lightbox"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Enlarged photo"
+      hidden
+    >
+      <button type="button" class="lightbox-close" aria-label="Close">
+        ×
+      </button>
+      <img class="lightbox-img" src="" alt="" />
+    </div>
+
     <footer id="contact" class="site-footer">
       <div>
         <div class="footer-copyright">© 2026 YIGONG</div>
@@ -449,6 +563,61 @@
           .addEventListener("change", function (ev) {
             if (!ev.matches) setOpen(false);
           });
+      })();
+    </script>
+    <script>
+      (function () {
+        var lb = document.getElementById("lightbox");
+        if (!lb) return;
+        var fullImg = lb.querySelector(".lightbox-img");
+        var closeBtn = lb.querySelector(".lightbox-close");
+        if (!fullImg || !closeBtn) return;
+
+        var lastFocus = null;
+
+        function openLightbox(thumb) {
+          lastFocus = document.activeElement;
+          fullImg.src = thumb.currentSrc || thumb.src;
+          fullImg.alt = thumb.alt || "";
+          lb.hidden = false;
+          document.body.style.overflow = "hidden";
+          closeBtn.focus();
+        }
+
+        function closeLightbox() {
+          lb.hidden = true;
+          fullImg.removeAttribute("src");
+          fullImg.alt = "";
+          document.body.style.overflow = "";
+          if (lastFocus && typeof lastFocus.focus === "function") {
+            lastFocus.focus();
+          }
+        }
+
+        document.querySelectorAll(".gallery-wrap .gallery-item img").forEach(
+          function (img) {
+            img.addEventListener("click", function () {
+              openLightbox(img);
+            });
+          }
+        );
+
+        closeBtn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          closeLightbox();
+        });
+
+        lb.addEventListener("click", function (e) {
+          if (e.target === lb) closeLightbox();
+        });
+
+        fullImg.addEventListener("click", function (e) {
+          e.stopPropagation();
+        });
+
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape" && !lb.hidden) closeLightbox();
+        });
       })();
     </script>
   </body>

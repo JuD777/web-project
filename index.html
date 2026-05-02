@@ -183,38 +183,6 @@
         display: block;
       }
 
-      .banner-badge {
-      position: absolute;
-      bottom: calc(28% + 12px);
-      right: calc(32% + 12px);
-      z-index: 3;
-
-      display: inline-flex;
-      align-items: baseline;
-      gap: clamp(4px, 0.6vw, 7px);
-
-      padding: clamp(6px, 0.8vw, 9px) clamp(8px, 1.1vw, 11px);
-      line-height: 1;
-
-      color: rgba(255, 255, 255, 0.85);
-      background: rgba(20, 22, 24, 0.55);
-      backdrop-filter: blur(6px);
-
-      border: 1px solid rgba(255, 244, 232, 0.2);
-      border-radius: 999px;
-
-      font-size: clamp(0.66rem, 0.95vw, 0.82rem);
-      text-transform: lowercase;
-      letter-spacing: 0.02em;
-      text-decoration: none;
-    }
-
-      .banner-badge-icon {
-        font-size: clamp(0.68rem, 1vw, 0.85rem);
-        position: relative;
-        top: 1px;
-      }
-
       .banner-slogan {
         position: absolute;
         right: calc(var(--edge-margin) + 20px);
@@ -383,18 +351,17 @@
           flex-shrink: 0;
         }
 
-        .banner-badge,
-        .banner-badge-icon {
-          display: none;
-        }
-
         /* Taller hero on small screens (not more offset from header) */
         .top-banner img {
           max-height: none;
-          min-height: clamp(260px, 48vh, 520px);
+          min-height: clamp(320px, 62vh, 660px);
           width: 100%;
           object-fit: cover;
           object-position: top center;
+        }
+
+        .banner-slogan {
+          top: 85%;
         }
 
         .top-banner::after {
@@ -503,15 +470,6 @@
     <div class="top-banner">
       <!-- Replace src with your image path or image URL -->
       <img src="./images/home4.png" alt="Hair styling showcase" />
-      <a
-        class="banner-badge"
-        href="https://www.instagram.com/yg.0909/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <span>book ✂ me</span>
-      </a>
-       <!-- Slogan -->
       <div class="banner-slogan">
         <span class="slogan-main">shaped with intention</span>
         <span class="slogan-sub">resonance over explanation</span>

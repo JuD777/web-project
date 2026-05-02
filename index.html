@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Yigong</title>
+    <title>YIGONG</title>
 
     <style>
       @import url("https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap");
@@ -218,7 +218,7 @@
       .banner-slogan {
         position: absolute;
         right: calc(var(--edge-margin) + 20px);
-        top: 25%;
+        top: 80%;
         transform: translateY(-50%);
         display: flex;
         flex-direction: column;
@@ -381,6 +381,25 @@
         .top-banner,
         .site-footer {
           flex-shrink: 0;
+        }
+
+        .banner-badge,
+        .banner-badge-icon {
+          display: none;
+        }
+
+        /* Taller hero on small screens (not more offset from header) */
+        .top-banner img {
+          max-height: none;
+          min-height: clamp(260px, 48vh, 520px);
+          width: 100%;
+          object-fit: cover;
+          object-position: top center;
+        }
+
+        .top-banner::after {
+          left: 20%;
+          right: 20%;
         }
 
         main {

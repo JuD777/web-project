@@ -118,10 +118,11 @@ p {
   justify-self: center;
   align-self: center;
   box-sizing: border-box;
-  width: min(100%, clamp(168px, 38vw, 420px));
+  width: min(100%, clamp(175px, 40vw, 420px));
+  transform: translateX(clamp(10px, 1.8vw, 32px));
   max-width: 100%;
   min-width: 0;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 4 / 3;
   height: auto;
   border-radius: 12px;
   overflow: hidden;
@@ -196,7 +197,9 @@ p {
 
   .about-photo {
     grid-column: 1;
-    width: min(45%, 240px);
-    justify-self: center;
+    width: min(58%, 280px);
+    justify-self: end;
+    margin-right: var(--page-padding);
+    transform: none;
   }
 }

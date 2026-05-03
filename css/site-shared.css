@@ -11,6 +11,8 @@
   --edge-margin: clamp(10px, 4vw, 60px);
   --logo-inset: calc(var(--page-padding) + var(--edge-margin));
   --header-pad-y: clamp(16px, 2.2vw, 26px);
+  /* Left edge of “YIGONG” in header: .header-inner pad + .logo margin */
+  --logo-text-start: calc(var(--page-padding) + clamp(10px, 4vw, 60px));
 }
 
 * {

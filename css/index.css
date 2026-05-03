@@ -182,11 +182,19 @@ p {
   }
 
   .home {
-    margin-top: auto;
     grid-template-columns: 1fr;
     row-gap: 10px;
     text-align: left;
     padding: clamp(24px, 4vw, 48px) var(--page-padding) 10px;
+    justify-items: center;
+    width: 100%;
+  }
+
+  .about-copy {
+    justify-self: stretch;
+    width: 100%;
+    max-width: 100%;
+    justify-items: stretch;
   }
 
   .about-copy p {
@@ -197,8 +205,10 @@ p {
 
   .about-photo {
     grid-column: 1;
-    width: min(58%, 280px);
+    width: min(72vw, 240px);
+    max-width: 100%;
     justify-self: center;
+    margin-inline: auto;
     transform: none;
   }
 }

@@ -133,6 +133,11 @@ main {
     scroll-margin-top: 80px;
   }
 
+  /* Match header logo start: .header-inner pad + .logo margin-left */
+  .gallery-section-title {
+    padding-left: clamp(10px, 4vw, 60px);
+  }
+
   .gallery-item {
     min-height: 140px;
   }

@@ -198,8 +198,7 @@ p {
   .about-photo {
     grid-column: 1;
     width: min(58%, 280px);
-    justify-self: end;
-    margin-right: var(--page-padding);
+    justify-self: center;
     transform: none;
   }
 }

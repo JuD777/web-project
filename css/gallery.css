@@ -82,7 +82,7 @@ main {
 
 .lightbox-img {
   display: block;
-  max-width: min(100%, calc(100vw - 32px));
+  max-width: min(100%, calc(100vw - 120px));
   width: auto;
   height: auto;
   max-height: calc(
@@ -115,6 +115,45 @@ main {
 }
 
 .lightbox-close:focus-visible {
+  color: #fff;
+  outline: 1px solid rgba(255, 255, 255, 0.35);
+  outline-offset: 2px;
+}
+
+.lightbox-nav {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 101;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 48px;
+  min-height: 48px;
+  padding: 10px;
+  margin: 0;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.4);
+  color: rgba(255, 255, 255, 0.88);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.lightbox-prev {
+  left: max(10px, env(safe-area-inset-left));
+}
+
+.lightbox-next {
+  right: max(10px, env(safe-area-inset-right));
+}
+
+.lightbox-nav:hover {
+  color: #fff;
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.lightbox-nav:focus-visible {
   color: #fff;
   outline: 1px solid rgba(255, 255, 255, 0.35);
   outline-offset: 2px;
@@ -160,8 +199,27 @@ main {
     -webkit-overflow-scrolling: touch;
   }
 
+  .lightbox-nav {
+    min-width: 36px;
+    min-height: 36px;
+    padding: 6px;
+  }
+
+  .lightbox-nav svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .lightbox-prev {
+    left: max(6px, env(safe-area-inset-left));
+  }
+
+  .lightbox-next {
+    right: max(6px, env(safe-area-inset-right));
+  }
+
   .lightbox-img {
-    max-width: calc(100vw - 24px);
+    max-width: min(calc(100vw - 24px), calc(100vw - 88px));
     width: auto;
     height: auto;
     max-height: calc(

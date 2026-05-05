@@ -185,7 +185,7 @@ p {
     grid-template-columns: 1fr;
     row-gap: 10px;
     text-align: left;
-    padding: clamp(24px, 4vw, 48px) clamp(18px, 5.5vw, 36px) 10px;
+    padding: clamp(32px, 5.5vw, 56px) clamp(18px, 5.5vw, 36px) 10px;
     justify-items: center;
     width: 100%;
   }

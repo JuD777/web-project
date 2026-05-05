@@ -167,7 +167,7 @@ main {
   .gallery-wrap {
     padding: clamp(16px, 4vw, 28px) var(--page-padding) 0;
     padding-left: var(--logo-text-start);
-    padding-right: var(--page-padding);
+    padding-right: var(--logo-text-start);
   }
 
   .gallery-section {

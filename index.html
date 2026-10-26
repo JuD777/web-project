@@ -170,5 +170,15 @@
           });
       })();
     </script>
+    <script>
+      document.querySelectorAll(".dropdown-trigger").forEach(function(trigger) {
+        trigger.addEventListener("click", function() {
+          const dropdown = trigger.closest(".dropdown");
+          const isOpen = dropdown.classList.toggle("is-open");
+      
+          trigger.setAttribute("aria-expanded", isOpen);
+        });
+      });
+      </script>
   </body>
 </html>

@@ -225,3 +225,11 @@ p {
     transform: none;
   }
 }
+
+.dropdown-menu {
+  display: none;
+}
+
+.dropdown.is-open .dropdown-menu {
+  display: block;
+}
